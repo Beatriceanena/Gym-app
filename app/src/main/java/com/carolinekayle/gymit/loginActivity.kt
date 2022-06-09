@@ -35,6 +35,8 @@ class loginActivity : AppCompatActivity() {
         }
       btnLogin.setOnClickListener {
           validateLogin()
+          startActivity(Intent(this,HomeActivity::class.java))
+
       }
 
     }
