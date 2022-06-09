@@ -85,7 +85,12 @@ class SignupActivity : AppCompatActivity() {
         if(!error){
 
         }
+        if(password!=confirm)
+            tilConfirm.error="Wrong Password"
+
+
     }
+
 
 
         }

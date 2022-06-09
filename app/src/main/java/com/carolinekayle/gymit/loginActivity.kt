@@ -3,10 +3,14 @@ package com.carolinekayle.gymit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
+import android.util.Patterns.EMAIL_ADDRESS
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.util.regex.Pattern
 
 class loginActivity : AppCompatActivity() {
     lateinit var btnLogin:Button
@@ -43,6 +47,11 @@ class loginActivity : AppCompatActivity() {
             tilEmail.error="Email is required"
             error=true
         }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            tilEmail.error="Not a valid email adddress"
+                error=true
+            }
+
 
         var password=etPassword.text.toString()
         if(password.isBlank()){

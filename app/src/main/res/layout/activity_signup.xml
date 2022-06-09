@@ -67,15 +67,16 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPassword2"
         android:layout_width="0dp"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-
         android:layout_height="wrap_content"
+
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword2"
@@ -87,14 +88,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilConfirm"
         android:layout_width="0dp"
-        app:startIconDrawable="@drawable/ic_baseline_email_24"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword2">
+        app:layout_constraintTop_toBottomOf="@+id/tilPassword2"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_baseline_email_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirm"
