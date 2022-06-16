@@ -11,3 +11,13 @@ class SplashActivity : AppCompatActivity() {
 
     }
 }
+
+
+
+
+
+
+
+
+
+
