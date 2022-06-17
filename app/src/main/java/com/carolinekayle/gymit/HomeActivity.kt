@@ -15,8 +15,8 @@ class HomeActivity : AppCompatActivity() {
         setupBottomNav()
     }
     fun castViews(){
-        bnvHome=findViewById(R.id.bnvHome)
-        fcvHome=findViewById(R.id.fcvHome)
+//         bnvHome=findViewById(R.id.bnvHome)
+//         fcvHome=findViewById(R.id.fcvHome)
     }
     fun setupBottomNav(){
         bnvHome.setOnItemSelectedListener { item ->
