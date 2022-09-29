@@ -1,3 +1,7 @@
 package com.carolinekayle.gymit.models
 
-data class LoginRequest()
+
+data class loginRequest(
+    var email:String,
+    var password:String,
+)

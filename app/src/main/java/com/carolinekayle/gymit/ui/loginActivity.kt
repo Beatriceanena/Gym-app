@@ -1,40 +1,62 @@
-package com.carolinekayle.gymit
+package com.carolinekayle.gymit.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
-import android.util.Patterns.EMAIL_ADDRESS
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.carolinekayle.gymit.LoginResponse
+import com.carolinekayle.gymit.api.ApiInterface
+import com.carolinekayle.gymit.api.apiclient
 import com.carolinekayle.gymit.databinding.ActivityLoginBinding
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import java.util.regex.Pattern
+import com.carolinekayle.gymit.models.loginRequest
+import com.carolinekayle.gymit.viewmodel.UserViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class loginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
+    lateinit var sharedPrefs:SharedPreferences
+    val userViewModel:UserViewModel by viewModels ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-
-        binding.tvSignup.setOnClickListener {
-            validateLogin()
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
-
-        }
-        binding.btnLogin.setOnClickListener {
-            validateLogin()
-            startActivity(Intent(this, HomeActivity::class.java))
-
-        }
+        castViews()
+        sharedPrefs=getSharedPreferences("WORKOUT_LOG_PREFS", MODE_PRIVATE)
     }
+    override fun onResume() {
+        super.onResume()
+        userViewModel.loginResponseLiveData.observe(this, Observer { loginResponse->
+            Toast.makeText(baseContext,loginResponse?.message,Toast.LENGTH_LONG).show()
+            saveLoginDetails(loginResponse!!)
+            startActivity(Intent(baseContext,HomeActivity::class.java))
+
+        })
+    userViewModel.errorLiveData.observe(this, Observer { errorMessage->
+        Toast.makeText(this,errorMessage,Toast.LENGTH_LONG).show()
+
+    })
+    }
+
+        fun castViews() {
+            binding.btnLogin.setOnClickListener {
+                validateLogin()
+
+
+            }
+            binding.tvSignup.setOnClickListener {
+                validateLogin()
+                val intent = Intent(this, SignupActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         fun validateLogin() {
             var error = false
@@ -53,13 +75,24 @@ class loginActivity : AppCompatActivity() {
 
             var password = binding.etPassword.text.toString()
             if (password.isBlank()) {
-               binding.tilPassword.error = "Password is required"
+                binding.tilPassword.error = "Password is required"
                 error = true
 
             }
-            if (!error) {
-
-
+            if (!error){
+                val loginRequest = loginRequest(email,password)
+                binding.pbLogin.visibility= View.VISIBLE
+                userViewModel.loginUser(loginRequest)
             }
         }
+
+    fun saveLoginDetails(loginResponse: LoginResponse){
+        val editor=sharedPrefs.edit()
+        editor.putString("ACCESS_TOKEN",loginResponse.accessToken)
+        editor.putString("USER_ID",loginResponse.userId)
+        editor.putString("PROFILE_ID",loginResponse.profileId)
+        editor.apply()
+
+
     }
+}
